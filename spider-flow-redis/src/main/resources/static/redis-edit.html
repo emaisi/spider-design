@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>DataSource</title>
+	<link rel="stylesheet" href="js/layui/css/layui.css" />
+	<link rel="stylesheet" href="css/layui-blue.css" />
+	<script type="text/javascript" src="js/layui/layui.all.js" ></script>
+	<script type="text/javascript" src="js/common.js" ></script>
+	<style type="text/css">
+		html,body{
+			width:100%;
+		}
+		.layui-form{
+			width : 700px;
+			margin-top:10px;
+		}
+		.layui-form-label{
+			width : 140px;
+		}
+		.layui-input-block{
+			margin-left : 170px;
+		}
+		.btns-submit{
+			text-align : center;
+		}
+	</style>
+</head>
+<body>
+	<form class="layui-form" autocomplete="off" lay-filter="form">
+		<div class="layui-form-item">
+   			<label class="layui-form-label">数据源名称</label>
+   			<div class="layui-input-block">
+   				<input type="text" name="name" placeholder="请输入数据源名称" autocomplete="off" class="layui-input" lay-verify="required"/>
+   			</div>
+   		</div>
+   		<div class="layui-form-item">
+   			<label class="layui-form-label">别名</label>
+   			<div class="layui-input-block">
+   				<input type="text" name="alias" placeholder="请输入数据库别名" autocomplete="off" class="layui-input" lay-verify="required"/>
+   			</div>
+   		</div>
+		<div class="layui-form-item">
+   			<label class="layui-form-label">Host</label>
+   			<div class="layui-input-block">
+   				<input type="text" name="host" placeholder="请输入redis host" autocomplete="off" class="layui-input" lay-verify="required"/>
+   			</div>
+   		</div>
+		<div class="layui-form-item">
+   			<label class="layui-form-label">port</label>
+   			<div class="layui-input-block">
+   				<input type="text" name="port" placeholder="请输入redis port" autocomplete="off" class="layui-input"  lay-verify="required"/>
+   			</div>
+   		</div>
+   		<div class="layui-form-item">
+   			<label class="layui-form-label">密码</label>
+   			<div class="layui-input-block">
+   				<input type="password" name="password" placeholder="请输入密码,没有则留空" autocomplete="off" class="layui-input" />
+   			</div>
+   		</div>
+   		<div class="layui-form-item">
+   			<label class="layui-form-label">数据库索引</label>
+   			<div class="layui-input-block">
+   				<input type="text" name="dbIndex" placeholder="请输入redis 数据库索引，默认为0" autocomplete="off" class="layui-input"/>
+   			</div>
+   		</div>
+   		<div class="layui-form-item">
+   			<label class="layui-form-label">最大连接数</label>
+   			<div class="layui-input-block">
+   				<input type="text" name="maxConnections" placeholder="请输最大连接数，默认为8" autocomplete="off" class="layui-input"/>
+   			</div>
+   		</div>
+   		<div class="layui-form-item">
+   			<label class="layui-form-label">最大空闲连接</label>
+   			<div class="layui-input-block">
+   				<input type="text" name="maxIdle" placeholder="请输最大空闲连接，默认为8" autocomplete="off" class="layui-input"/>
+   			</div>
+   		</div>
+   		<div class="layui-form-item">
+   			<label class="layui-form-label">最小空闲连接</label>
+   			<div class="layui-input-block">
+   				<input type="text" name="minIdle" placeholder="请输最小空闲连接，默认为0" autocomplete="off" class="layui-input"/>
+   			</div>
+   		</div>
+   		<div class="btns-submit">
+			<button class="layui-btn layui-btn-normal" lay-submit lay-filter="save">保存</button>
+			<button class="layui-btn layui-btn-normal" lay-submit lay-filter="test" type="button">测试连接</button>
+			<button class="layui-btn layui-btn-primary btn-return" type="button" onclick="history.go(-1);">返回</button>
+		</div>
+	</form>
+	<script type="text/javascript">
+		var $ = layui.$;
+		var dsId = getQueryString('id');
+		if(dsId){
+			$.ajax({
+				url : 'redis/get',
+				data : {
+					id : dsId
+				},
+				success : function(json){
+					layui.form.val('form',json.data)
+				}
+			})
+		}
+		layui.form.on('submit(save)',function(){
+			$.ajax({
+				url : 'redis/save',
+				type : 'post',
+				data : {
+					id : dsId,
+					name : $("input[name=name]").val(),
+					host : $("input[name=host]").val(),
+					alias : $("input[name=alias]").val(),
+					port : $("input[name=port]").val(),
+					dbIndex : $("input[name=dbIndex]").val(),
+					maxIdle : $("input[name=maxIdle]").val(),
+					minIdle : $("input[name=minIdle]").val(),
+					maxConnections : $("input[name=maxConnections]").val(),
+					password : $("input[name=password]").val()
+				},
+				success : function(json){
+					layui.layer.msg('保存成功',{
+						time : 800
+					},function(){
+						location.href = 'redis.html';
+					})
+				},
+				error : function(){
+					layui.layer.msg('请求失败');
+				}
+			})
+			return false;
+		})
+		layui.form.on('submit(test)',function(){
+			sf.ajax({
+				url : 'redis/test',
+				type : 'post',
+				data : {
+					host : $("input[name=host]").val(),
+					port : $("input[name=port]").val(),
+					database : $("input[name=dbIndex]").val() || 0,
+					password : $("input[name=password]").val()
+				},
+				success : function(json){
+					layui.layer.msg(json.message);
+				},
+				error : function(){
+					layui.layer.msg('请求失败');
+				}
+			})
+			return false;
+		})
+	</script>
+</body>
+</html>

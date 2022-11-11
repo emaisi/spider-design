@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>OSS</title>
+	<link rel="stylesheet" href="../../js/layui/css/layui.css" />
+	<link rel="stylesheet" href="../../css/layui-blue.css" />
+	<script type="text/javascript" src="../../js/layui/layui.all.js" ></script>
+	<script type="text/javascript" src="../../js/common.js" ></script>
+	<style>
+		.oss-form .layui-input-block{
+		    margin-left: 226px;
+    		width: 400px;
+		}
+		.oss-form .layui-form-label{
+			width: 190px;
+		}
+	</style>
+</head>
+<body style="padding:5px;">
+   	<form class="layui-form oss-form" lay-filter="form">
+   		<div class="layui-form-item">
+   			<label class="layui-form-label">主键（OSS_ID）唯一标识</label>
+   			<div class="layui-input-block">
+   				<input type="text" name="ossId" placeholder="请输入主键（OSS_ID）唯一标识"  autocomplete="off" class="layui-input">
+   			</div>
+   		</div>
+   		<div class="layui-form-item">
+   			<label class="layui-form-label">EndPoint（地域节点）</label>
+   			<div class="layui-input-block">
+   				<input type="text" name="endpoint" autocomplete="off" class="layui-input input-default" >
+   			</div>
+   		</div>
+   		<div class="layui-form-item">
+   			<label class="layui-form-label">ACCESS_KEY_ID</label>
+   			<div class="layui-input-block">
+   				<input type="text" name="accessKeyId" autocomplete="off" class="layui-input input-default" >
+   			</div>
+   		</div>
+   		<div class="layui-form-item">
+   			<label class="layui-form-label">ACCESS_KEY_SECRET</label>
+   			<div class="layui-input-block">
+   				<input type="text" name="accessKeySecret" autocomplete="off" class="layui-input input-default" >
+   			</div>
+   		</div>
+   		<div class="layui-form-item">
+   			<label class="layui-form-label">Bucket 名称</label>
+   			<div class="layui-input-block">
+   				<input type="text" name="bucketName" autocomplete="off" class="layui-input input-default" >
+   			</div>
+   		</div>
+   		<div class="btns-submit">
+   			<label class="layui-form-label"></label>
+			<button class="layui-btn layui-btn-normal" lay-submit lay-filter="save">保存</button>
+			<button class="layui-btn layui-btn-primary btn-return" type="button" onclick="history.go(-1);">返回</button>
+		</div>
+   	</form>
+   	<script type="text/javascript">
+		var $ = layui.$;
+		var id = getQueryString('id');
+		if(id){
+			$.ajax({
+				url : '/oss/get',
+				data : {
+					id : id
+				},
+				success : function(data){
+					$("input[name=ossId]").attr("readonly","readonly");
+					layui.form.val('form',data.data);
+				}
+			})
+		}
+		layui.form.on('submit(save)',function(){
+			$.ajax({
+				url : '/oss/save',
+				type : 'post',
+				data : {
+					ossId : $("input[name=ossId]").val(),
+					endpoint : $("input[name=endpoint]").val(),
+					accessKeyId : $("input[name=accessKeyId]").val(),
+					accessKeySecret : $("input[name=accessKeySecret]").val(),
+					bucketName : $("input[name=bucketName]").val()
+				},
+				success : function(json){
+					layui.layer.msg('保存成功',{
+						time : 800
+					},function(){
+						location.href = 'ossList.html';
+					})
+				},
+				error : function(){
+					layui.layer.msg('请求失败');
+				}
+			})
+			return false;
+		})
+	</script>
+</body>
+</html>

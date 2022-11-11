@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>OSS</title>
+    <link rel="stylesheet" href="../../js/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../css/layui-blue.css" />
+    <script type="text/javascript" src="../../js/layui/layui.all.js" ></script>
+    <script type="text/javascript" src="../../js/common.js" ></script>
+    <style>
+        .oss-form .layui-input-block{
+            margin-left: 226px;
+            width: 400px;
+        }
+        .oss-form .layui-form-label{
+            width: 190px;
+        }
+    </style>
+</head>
+<body style="padding:5px;">
+<form class="layui-form oss-form" lay-filter="form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">邮箱名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" placeholder="请输入邮箱名称"  autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">host</label>
+        <div class="layui-input-block">
+            <input type="text" name="host" placeholder="请输入邮箱host"  autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">port</label>
+        <div class="layui-input-block">
+            <input type="text" name="port" autocomplete="off" class="layui-input input-default" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block">
+            <input type="text" name="username" autocomplete="off" class="layui-input input-default" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">password</label>
+        <div class="layui-input-block">
+            <input type="password" name="password" autocomplete="off" class="layui-input input-default" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">超时时间</label>
+        <div class="layui-input-block">
+            <input type="text" name="timeout" autocomplete="off" class="layui-input input-default" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">测试邮箱</label>
+        <div class="layui-input-block">
+            <input type="text" name="email" autocomplete="off" class="layui-input input-default" >
+        </div>
+    </div>
+    <div class="btns-submit">
+        <label class="layui-form-label"></label>
+        <button class="layui-btn layui-btn-normal" lay-submit lay-filter="save">保存</button>
+        <button class="layui-btn layui-btn-primary btn-test" type="button">测试</button>
+        <button class="layui-btn layui-btn-primary btn-return" type="button" onclick="history.go(-1);">返回</button>
+    </div>
+</form>
+<script type="text/javascript">
+    var $ = layui.$;
+    var id = getQueryString('id');
+    layui.form.render();
+    if(id){
+        $.ajax({
+            url : '/mail/get',
+            data : {
+                id : id
+            },
+            success : function(data){
+                layui.form.val('form',data.data);
+                layui.form.render();
+            }
+        })
+    }
+    $(".btn-test").on("click",function(){
+        $.ajax({
+            url : '/mail/test',
+            type : 'post',
+            data : {
+                host : $("input[name=host]").val(),
+                port : $("input[name=port]").val(),
+                username : $("input[name=username]").val(),
+                password : $("input[name=password]").val(),
+                email : $("input[name=email]").val(),
+                timeout : $("input[name=timeout]").val()
+            },
+            success : function(json){
+                if(json.code == 1){
+                    layui.layer.msg('测试成功');
+                }else{
+                    layui.layer.alert('测试失败,' + json.message || '',{
+                        icon : 2
+                    })
+                }
+            },
+            error : function(){
+                layui.layer.msg('保存失败');
+            }
+        })
+    });
+    layui.form.on('submit(save)',function(){
+        $.ajax({
+            url : '/mail/save',
+            type : 'post',
+            data : {
+                id : id,
+                name : $("input[name=name]").val(),
+                host : $("input[name=host]").val(),
+                port : $("input[name=port]").val(),
+                username : $("input[name=username]").val(),
+                password : $("input[name=password]").val(),
+                email : $("input[name=email]").val(),
+                timeout : $("input[name=timeout]").val()
+            },
+            success : function(json){
+                layui.layer.msg('保存成功',{
+                    time : 800
+                },function(){
+                    location.href = 'mailList.html';
+                })
+            },
+            error : function(){
+                layui.layer.msg('保存失败');
+            }
+        })
+        return false;
+    })
+</script>
+</body>
+</html>

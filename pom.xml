@@ -177,6 +177,11 @@
 				<artifactId>spider-flow-minio</artifactId>
 				<version>${spider-flow.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.spiderflow</groupId>
+				<artifactId>spider-flow-translate</artifactId>
+				<version>${spider-flow.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<modules>
@@ -191,5 +196,6 @@
 		<module>spider-flow-mailbox</module>
 		<module>spider-flow-minio</module>
 		<module>spider-flow-oss</module>
+		<module>spider-flow-translate</module>
 	</modules>
 </project>

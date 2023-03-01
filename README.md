@@ -1,7 +1,13 @@
+2023-03-01
+- 升级为0.5.1版本
+- 新增spider-flow-translate翻译插件
+
 2022-11-11
 - 升级mysql驱动版本为8.0.31
 
 - 整合插件
+-
+[翻译插件](https://gitee.com/emaisi/spider-design/tree/master/spider-flow-translate)
 
 [minio插件](https://gitee.com/lmyanglei/spider-flow-minio)
  

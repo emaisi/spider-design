@@ -9,21 +9,21 @@
 -
 [翻译插件](https://gitee.com/emaisi/spider-design/tree/master/spider-flow-translate)
 
-[minio插件](https://gitee.com/lmyanglei/spider-flow-minio)
+[minio插件](https://gitee.com/emaisi/spider-design/tree/master/spider-flow-minio)
  
-[Selenium插件](https://gitee.com/ssssssss-team/spider-flow-selenium)
+[Selenium插件](https://gitee.com/emaisi/spider-design/tree/master/spider-flow-selenium)
  
-[Redis插件](https://gitee.com/ssssssss-team/spider-flow-redis)
+[Redis插件](https://gitee.com/emaisi/spider-design/tree/master/spider-flow-redis)
  
-[OSS插件](https://gitee.com/ssssssss-team/spider-flow-oss)
+[OSS插件](https://gitee.com/emaisi/spider-design/tree/master/spider-flow-oss)
 
-[Mongodb插件](https://gitee.com/ssssssss-team/spider-flow-mongodb)
+[Mongodb插件](https://gitee.com/emaisi/spider-design/tree/master/spider-flow-mongodb)
  
-[IP代理池插件](https://gitee.com/ssssssss-team/spider-flow-proxypool)
+[IP代理池插件](https://gitee.com/emaisi/spider-design/tree/master/spider-flow-proxypool)
  
-[OCR识别插件](https://gitee.com/ssssssss-team/spider-flow-ocr)
+[OCR识别插件](https://gitee.com/emaisi/spider-design/tree/master/spider-flow-ocr)
  
-[电子邮箱插件](https://gitee.com/ssssssss-team/spider-flow-mailbox)
+[电子邮箱插件](https://gitee.com/emaisi/spider-design/tree/master/spider-flow-mailbox)
 
 
 

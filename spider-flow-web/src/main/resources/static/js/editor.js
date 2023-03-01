@@ -4,32 +4,88 @@ var flows;
 var codeMirrorInstances = {};
 var socket;
 var version = 'lastest';
+var tokenizer = new Tokenizer();
 function renderCodeMirror(){
-	codeMirrorInstances = {};
-	$('[codemirror]').each(function(){
-		var $dom = $(this);
-		if($dom.attr("rendered") == 'true'){
-			return;
-		}
-		$dom.attr("rendered",true)
-		var cm = CodeMirror(this,{
-			mode : 'spiderflow',	//语法
-			theme : 'idea',	//设置样式
-			placeholder : $dom.attr("placeholder"),
-			value : $dom.attr('data-value') || '',
-			scrollbarStyle : 'null',	//隐藏滚动条
-		});
-		initHint(cm);
-		codeMirrorInstances[$(this).attr('codemirror')] = cm;
-		cm.on('change',function(){
-			$dom.attr('data-value',cm.getValue());
-			if($dom.attr('codemirror') == 'condition'){
-				var $select = $('select[name="exception-flow"]');
-				$select.siblings("div.layui-form-select").find('dl dd[lay-value=' + $select.val() + ']').click();
+	require(['vs/editor/editor.main'], function() {
+		$('[codemirror]').each(function(){
+			var $dom = $(this);
+			if($dom.attr("rendered") == 'true'){
+				return;
 			}
-			serializeForm();
+			$dom.attr("rendered",true)
+			var cm = monaco.editor.create(this,{
+				language: 'spiderflow',
+				contextmenu :false,
+				minimap : {
+					enabled : false
+				},
+				overviewRulerBorder : false,
+				overviewRulerLanes : 0,
+				folding:false,
+				fixedOverflowWidgets :true,
+				scrollbar : {
+					horizontal : 'auto',
+					vertical : 'hidden'
+				},
+				lineNumbers : 'off',
+				theme : 'spiderflow',
+				value : $dom.attr('data-value') || ''
+			})
+			// var cm = CodeMirror(this,{
+			// 	mode : 'spiderflow',	//语法
+			// 	theme : 'idea',	//设置样式
+			// 	placeholder : $dom.attr("placeholder"),
+			// 	value : $dom.attr('data-value') || '',
+			// 	scrollbarStyle : 'null',	//隐藏滚动条
+			// });
+			// initHint(cm);
+			// codeMirrorInstances[$(this).attr('codemirror')] = cm;
+			// cm.on('change',function(){
+			// 	$dom.attr('data-value',cm.getValue());
+			// 	if($dom.attr('codemirror') == 'condition'){
+			// 		var $select = $('select[name="exception-flow"]');
+			// 		$select.siblings("div.layui-form-select").find('dl dd[lay-value=' + $select.val() + ']').click();
+			// 	}
+			// 	serializeForm();
+			// });
+			var oldDecorations = [];
+			var newDecorations = [];
+			cm.onDidChangeModelContent(function(){
+				var value = cm.getValue();
+				$dom.attr('data-value',value);
+				if($dom.attr('codemirror') == 'condition'){
+					var $select = $('select[name="exception-flow"]');
+					$select.siblings("div.layui-form-select").find('dl dd[lay-value=' + $select.val() + ']').click();
+				}
+				serializeForm();
+				try{
+					tokenizer.tokenize(value,true);
+					newDecorations = [];
+					cm.deltaDecorations(oldDecorations,newDecorations)
+					oldDecorations = newDecorations;
+				}catch(e){
+					var decorations = [{
+						range : new monaco.Range(1,e.span.start,1,e.span.end),
+						options : {
+							hoverMessage : {
+								value : e.message
+							},
+							inlineClassName : 'squiggly-error',
+						}
+					}];
+					cm.deltaDecorations(oldDecorations,decorations)
+					oldDecorations = decorations;
+				}
+			})
+			var codemirror = $dom.attr('codemirror');
+			if ($dom.hasClass('array')) {
+				var array = codeMirrorInstances[codemirror] || [];
+				array.push(cm);
+				codeMirrorInstances[codemirror] = array
+			} else {
+				codeMirrorInstances[codemirror] = cm;
+			}
 		});
-		codeMirrorInstances[$(this).attr('codemirror')] = cm;
 	});
 }
 function getCellData(cellId,keys){
@@ -125,6 +181,7 @@ function resizeSlideBar(){
 	var w = Math.ceil(totalHeight / height);
 	$dom.width(w * 50);
 	$(".editor-container,.xml-container").css("left",w * 50 + "px");
+	monacoLayout();
 }
 
 function validXML(callback){
@@ -143,7 +200,26 @@ function validXML(callback){
 		callback&&callback();
 	}
 }
+function monacoLayout(){
+	for(var key in codeMirrorInstances){
+		if (codeMirrorInstances[key].length) {
+			for(var index in codeMirrorInstances[key]) {
+				codeMirrorInstances[key][index].layout();
+			}
+		} else {
+			codeMirrorInstances[key].layout();
+		}
+	}
+}
 $(function(){
+	$.ajax({
+		url : 'spider/objects',
+		type : 'post',
+		dataType : 'json',
+		success : function(data){
+			spiderflowGrammer.reset(data.data)
+		}
+	})
 	$.ajax({
 		url : 'spider/other',
 		type : 'post',
@@ -520,9 +596,7 @@ $(function(){
 			}
 		});
 		layui.element.on('tab',function(){
-			for(var key in codeMirrorInstances){
-				codeMirrorInstances[key].refresh();
-			}
+			monacoLayout();
 		})
 		layui.form.on('select',serializeForm);
 		var id = getQueryString('id');
@@ -587,6 +661,11 @@ $(function(){
 			image : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAD1ElEQVRYR7WXUXIaRxCGv4YqR2+WH2zxZukEUU5gdAKjExhfILAnMD7BohMYn8D4BEYnsHQCobfd5CHkDVIFnerZmc0sLAJjMlVUSbszPX93//13r7DnOk319JcGb0TpAOfRzyxMw0+F8WLF7SyR2T6mZdemVqrnCB+A7sZe5dE9E17X2BmhfMwSMXBb11YAzmPhg0DfnVYeFcYKkz8SGddZfJVqR6At0ClBCYP5ipttEakF4C//JnCpyt/AIE9kuCta8fuzVA34QITnCncL5aoOxAaAl6leNgS7/FSVrwvo7pvPdYDOERiJ8FZhtlKu/kzkLt5XAeA9f/CX3+SJFOH/yXWW6lCEnoFYKBexQyWAtbAf7fKAPQJRSUcJoNygfM0TsVI7+jpLdWzp8NUxKAoI8KX2YIRbwPmhOd+F2HNiasREubASDQBGCO9USdbZ3kq1TRPNfpfb9Qsc8CavWfIY17sRudnk+XzJ/bozrVQHTleUz1kiXTFUJ8JfVudZIqZwbjkjwhevePZoulSuA4tLQ36/wjDvS+IjOkF4g3KVJTKpAT41nZgrL8TEoyF8UaVCvFaqbpOVooEQ4Ver57wvv7moCN8sZVKIU8eH9X2WyKiV6i4ALuIr5VpaqZb/BIWLOHGfJ3LpvXKAsr7YGRdGM2Bn1p3YBSDstzSYMYfWDIdQBQ9RbrNE2h6A9YLzLJFBlEcX4vX9uwA4e0NVs28ASs/iXLkN1uWKPFYayrEAWErFI6kQ0IAEXbC/rQmJchMIdRQA3nEHIJCrhq0mFt2ysxXt9TgpKAFsSUElHakaiE+m5XlfXhwlAua4cl9LwjpFi8l6LACBhBtl6EUo9Wo1isUlLkMj6BJmTaHnUuWrZlcVVMqwTog8gO+BG14tv7syjHTApNuGFhMVF7X/OLK/EJVSDNOsLxdR+7wz9aukw+u3CZUrIWsq0QqTzwmMnRRXX8aaUpb+1mbkgMHQZNa3zfEc+qG5mPiY/juJLuR6YvPjEjoN6LrIrIGzAWejGfn82uT7UDex1BHy0GfxxFVpxx6E03cTnbwv14de8tS5iJxOT3xkiyN+WJj4kP5/I5lyv4B2SOXmUApuYon7+89GIxr3Niau+rHcCFWAGC+U94eOaD7nn+xDxWaHFbSfHMuDp5V0wAxhkPfk5kciYWxXoedH/ErYYztPfpqd2GdZ8V1oa2oRQZjkPbGy21he1N4CNkMU453ycQ7DH/o0iy276QisQgq1q64wJ5SzZPla+WznDv44Xb/J0vIM2o1CmEwJT4NSuq5mqYLpCsb/wGRf3vwLgODoY+vqQ1gAAAAASUVORK5CYII=',
 			title : '执行SQL',
 			desc : '执行sql，需配置数据源，sql执行结果存于变量rs中。<br/>语句类型为：select，返回:List&lt;Map&lt;String,Object&gt;&gt;<br/>语句类型为：selectOne，返回:Map&lt;String,Object&gt;<br/>语句类型为：selectInt，返回:Integer<br/>语句类型为：insert、update、delete，返回:int，批量操作返回int数组<br/>sql中变量必须用 # # 包裹，如：#${title}#'
+		},{
+			name : 'script',
+			image : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADD0lEQVRYR92XTUhUURTH//8xyzYRJM2MuZCoFrk0iD4WFQiJRSsnF4GmIFHkvEdmUIEKRZjVm5EoDErcmS4rSgpzIX1ArcIWYSZt5vkBSUWM0zgn3nPe9NSx+XBeQRcGZuaej98999xzzyX+8aDl3xuUMonhcE54iBFdYX86thIAHk1aQbSko5SmzGld4c1UsksBBG2plFLOxxdC4krIz/N/kk8GsF9XOZTSyTICHk32gXiemCZ6NnjRMOJjJJmK8wDzXgchqNdVji+G+FsAgGA05kLNpJ8v7BA5BzCMewIiy+zQLIEjIYUD1rwzAEFpgaAKQOkSEEGbrrLVUYBkq08k5/8PUCV56Ofc4iisOAKeoLRTMBZS2GU37g3InZigd0LlYFFAymOCE9EIaqfP8ZtdLmuALZ2y5rvgFgR1AEbggk9v5HvDuDcoB0Xw2HTkQili6Isn3sBcBLVTzdQtiKwAim/Lpp+z6CZQDmA4KvBNqwzZjD4EUSnE5Qk/Lxa2S1HeavSR2APgVSyCY5PN/GgeTatCZpKEnoAYRWMXiAcF6+AbP86w5dytSR2JuyA+hGPYOaNyxpgrviFroy4zEocAvNQV7l4JQC+AoySe5efD9/kkvxjGSjRZH3bhNQTbRFA/ofKeBVbSLQXhr+iDmFf7fV1hddYA8ap2FcBZAGMkfCE/37qDcomCCxA80lUaKzVHoSbeVTRXvxdAh66weUU5kFAOyBkA18zfRKXh2PxKVIT8fGKCdsp2WxI26Qqv5+QUJCCCUgPBD6PTcWtywEVUhxQ2LHJSARc26n725LwOJCuvmfyX1SnIxEE6smbbBwzZGx5HbsN0YCwZRwE8AXljONIV7lgOyjEAtyabSZhVUFeY8LMYxBEAY69dwNMYMRx3+LvJFbzTVTY6tgUeTUpAfAJgNKAlSUNvuw+ciUBQOiBoWjYZUwBk/DCJAl32WzJewo0ELMs8ApmcIUtWsOQx4w1KgwgWNC+W+Fw+tk6d4uh8ZY+PlTxOk0XAjILRAwDGJzHsHfECgGwWngudX+XU9zD0knfOAAAAAElFTkSuQmCC',
+			title : '执行脚本',
+			desc : '单独执行脚本方法'
 		},{
 			name : 'function',
 			image : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAAgCAYAAACPb1E+AAAC9UlEQVRYR+2YP0zUUBjAf9+RKJPgQK6THptxERPiZOTUxEUj/tlMjCS62xoT3YARl5bJTXByBGcHISQmxhjQ6A6TPRg8JrnE62de6Z0Htne9XhMw4W1N3/u+X7//rwJgzeokygRQMs+HYSksBsr0liNrYrk6gTB3GMBiGNZ9W4al6OqiCOOqfFGYKkD1oIEVRkRwQw5l2FhyCWEMZdp3ZOqgARv6LU/1CDIPbxxZMg8rhmUxj5gcdHWw6khiJSh6+lVgAGXMd2S90/79H9czpOXpd+CsKk7FEe8fBab2whwCdeF6n/ISOFUPuLT1RFbSWLsnSMvTOVUmREJVM74tz1uVGov1C6tR9/rs2zJqefoL6FfYDpSy6SKdQDNDGkAI2yeqvKk4ci/GilMIk40aZ1w95OpIQVgWOKFQDZTLnUAzQbYCorz2HQlhW5flakmFVYFBVWYrjtiN9yEoLIkwkAa0a0jL0x8m4SLrxAKGGenqPMIDVbZrUNqfWE1Qk1AFqAc83HLkVZzrs0AGgKhQDwJG41xluVpGeB99SGKLtTx9i3LTJFUAC5u23MkFcsjTZwWYFjie5CrLUwNYRtnwHYkd+fbENHyr/eZG9als5AJphLSLqdZxL1BubzqyGFP3mkmXFNN74jtrMW8FRdgB7u4EfGiWHGXZd6QcA7iCcBEz1yQkXa7F3ID2wUeEY0HATJ9wRoVxo6SunI+N18gqCu8qtlzrVCNzaYtFVx8BVwJ4UYB5Ec4pfKrYciEOoOiqjXC1ptxv10pzcXccQBQC5VqdhaQkSGO5XN2dRWGWM13XySxKej1zBNmrBRvnYy25fyDIS1kWOdG49zNqseG92xPhcSRsqWuhgoXSn3jOFH3F71Kuaatha91RTpp7d0lhzYxQXQra3W66yO4AHL86vW+nNOpOofgI9JaZAzOAmt80p9tAmgFivlu5Aaw1ZoB2Nkglt/kHJNmSsf08lfBoU2pIy9W/14JuNCTs9e3olpRC1n8B+Qd0Dhp9ddQMugAAAABJRU5ErkJggg==',
@@ -720,6 +799,7 @@ function bindToolbarClickAction(editor){
 				$(".editor-container").css('right',($('body').width() - moveLen) + 'px')
 				$(".properties-container").width(box.clientWidth - moveLen - 5);
 				$(".xml-container").width($(".main-container").width() - $(".properties-container").width() - $(".sidebar-container").width() + 8);
+				monacoLayout();
 			}
 			document.onmouseup = function(evt){
 				document.onmousemove = null;
@@ -729,6 +809,7 @@ function bindToolbarClickAction(editor){
 			resize.setCapture && resize.setCapture();
 			return false;
 		}
+		monacoLayout();
 	}).on('click','.btn-dock-bottom',function(){
 		resizeSlideBar();
 		$('.main-container').removeClass('right');
@@ -749,6 +830,7 @@ function bindToolbarClickAction(editor){
 			  resize.style.top = moveLen + 'px';
 			  resizeSlideBar();
 			  $(".editor-container,.sidebar-container,.xml-container").css('bottom',($('body').height() - moveLen) + 'px');
+			  monacoLayout();
 			  $(".properties-container").height(box.clientHeight - moveLen - 5);
 			}
 			document.onmouseup = function(evt){
@@ -759,6 +841,7 @@ function bindToolbarClickAction(editor){
 			resize.setCapture && resize.setCapture();
 			return false;
 		}
+		monacoLayout();
 	})
 	$('.btn-dock-bottom').click();
 }

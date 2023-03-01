@@ -15,7 +15,7 @@ import org.spiderflow.core.expression.parsing.Ast.Text;
 /**
  * <p>
  * Interprets a Template given a TemplateContext to lookup variable values in and writes the evaluation results to an output
- * stream. Uses the global {@link Reflection} instance as returned by {@link Reflection#getInstance()} to access members and call
+ * stream. Uses the global {@link AbstractReflection} instance as returned by {@link AbstractReflection#getInstance()} to access members and call
  * methods.
  * </p>
  *
@@ -30,9 +30,9 @@ public class AstInterpreter {
 		try {
 			return interpretNodeList(template.getNodes(), template, context);
 		} catch (Throwable t) {
-			if (t instanceof TemplateException)
+			if (t instanceof TemplateException) {
 				throw (TemplateException)t;
-			else {
+			} else {
 				ExpressionError.error("执行表达式出错 " + t.getMessage(), template.getNodes().get(0).getSpan(),t);
 				return null; // never reached
 			}
@@ -51,15 +51,11 @@ public class AstInterpreter {
 					return null;
 				}
 				result += "null";
-			}else if(value instanceof String || value instanceof Number || value instanceof Boolean){
+			}else {
 				if(i ==0 && i + 1 ==n){
 					return value;
 				}
 				result += value;
-			}else if(i + 1 < n){
-				ExpressionError.error("表达式执行错误", node.getSpan());
-			}else{
-				return value;
 			}
 		}
 		return result;

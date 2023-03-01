@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.spiderflow</groupId>
 		<artifactId>spider-flow</artifactId>
-		<version>0.5.0</version>
+		<version>0.5.1</version>
 	</parent>
 	<artifactId>spider-flow-mailbox</artifactId>
 	<name>spider-flow-mailbox</name>

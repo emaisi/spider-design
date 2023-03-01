@@ -46,7 +46,7 @@ public class FlowNoticeController {
 	}
 
 	@RequestMapping("/getNoticeWay")
-	public JsonBean<Map<String, String>> getNoticeWay(String id) {
+	public JsonBean<Map<String, String>> getNoticeWay() {
 		return new JsonBean<Map<String, String>>(FlowNoticeWay.getMap());
 	}
 

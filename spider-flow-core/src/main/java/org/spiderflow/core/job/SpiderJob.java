@@ -56,7 +56,6 @@ public class SpiderJob extends QuartzJobBean {
 		JobDataMap dataMap = context.getMergedJobDataMap();
 		SpiderFlow spiderFlow = (SpiderFlow) dataMap.get(SpiderJobManager.JOB_PARAM_NAME);
 		if("1".equalsIgnoreCase(spiderFlow.getEnabled())){
-			logger.info("job:【{}】 start run, nextTime:{}",spiderFlow.getName(), spiderFlow.getNextExecuteTime());
 			run(spiderFlow, context.getNextFireTime());
 		}
 	}

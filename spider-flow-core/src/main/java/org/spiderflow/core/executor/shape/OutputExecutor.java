@@ -85,7 +85,7 @@ public class OutputExecutor implements ShapeExecutor, SpiderListener {
 			}
 			output.addOutput(outputName, value);
 			if ((databaseFlag || csvFlag) && value != null) {
-				outputData.put(outputName, value.toString());
+				outputData.put(outputName, value);
 			}
 		}
 		if(databaseFlag){
@@ -224,9 +224,7 @@ public class OutputExecutor implements ShapeExecutor, SpiderListener {
 				try {
 					printer.flush();
 					printer.close();
-					//					this.cachePrinter.remove(entry.getKey());
-					//修复CSV输出文件占用问题
-					iterator.remove();
+					this.cachePrinter.remove(entry.getKey());
 				} catch (IOException e) {
 					logger.error("文件输出错误,异常信息:{}", e.getMessage(), e);
 					ExceptionUtils.wrapAndThrow(e);

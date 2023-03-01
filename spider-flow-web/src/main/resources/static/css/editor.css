@@ -423,6 +423,7 @@ html,body{
 .layui-input-block{
 	min-height: 24px;
 	line-height: 24px;
+	height : 24px;
 }
 .layui-input-block{
 	margin-left : 100px;
@@ -607,4 +608,11 @@ html,body{
 .layui-table-body.layui-table-main .layui-table input,
 .layui-table-box .layui-table-header .layui-table{
 	width: 100%;
+}
+.properties-container .monaco-editor .view-overlays .current-line{
+	border : none !important;
+}
+.properties-container .monaco-editor{
+	border : 1px solid #e6e6e6;
+	overflow: hidden;
 }

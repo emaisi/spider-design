@@ -3,7 +3,7 @@ package org.spiderflow.model;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.commons.lang3.StringUtils;
+import cn.hutool.core.util.StrUtil;
 import org.apache.commons.text.StringEscapeUtils;
 
 import com.alibaba.fastjson.JSONArray;
@@ -82,15 +82,17 @@ public class SpiderNode {
 		String value = (String) this.jsonProperty.get(key);
 		if(value != null){
 			value = StringEscapeUtils.unescapeHtml4(value);
+
+
 		}
 		return value;
 	}
 
 	public String getStringJsonValue(String key,String defaultValue){
 		String value = getStringJsonValue(key);
-		return StringUtils.isNotBlank(value) ? value : defaultValue;
+		return StrUtil.isNotBlank(value) ? value : defaultValue;
 	}
-	
+
 	public List<Map<String,String>> getListJsonValue(String ... keys){
 		List<JSONArray> arrays = new ArrayList<>();
 		int size = -1;

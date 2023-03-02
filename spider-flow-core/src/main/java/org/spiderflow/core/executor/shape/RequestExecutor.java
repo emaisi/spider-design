@@ -1,9 +1,11 @@
 package org.spiderflow.core.executor.shape;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.IORuntimeException;
+import cn.hutool.core.util.StrUtil;
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnel;
 import com.google.common.hash.Funnels;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -36,17 +38,17 @@ import java.util.*;
  */
 @Component
 public class RequestExecutor implements ShapeExecutor,Grammerable, SpiderListener {
-	
+
 	public static final String SLEEP = "sleep";
-	
+
 	public static final String URL = "url";
-	
+
 	public static final String PROXY = "proxy";
-	
+
 	public static final String REQUEST_METHOD = "method";
-	
+
 	public static final String PARAMETER_NAME = "parameter-name";
-	
+
 	public static final String PARAMETER_VALUE = "parameter-value";
 
 	public static final String COOKIE_NAME = "cookie-name";
@@ -54,23 +56,23 @@ public class RequestExecutor implements ShapeExecutor,Grammerable, SpiderListene
 	public static final String COOKIE_VALUE = "cookie-value";
 
 	public static final String PARAMETER_FORM_NAME = "parameter-form-name";
-	
+
 	public static final String PARAMETER_FORM_VALUE = "parameter-form-value";
-	
+
 	public static final String PARAMETER_FORM_FILENAME = "parameter-form-filename";
-	
+
 	public static final String PARAMETER_FORM_TYPE = "parameter-form-type";
-	
+
 	public static final String BODY_TYPE = "body-type";
-	
+
 	public static final String BODY_CONTENT_TYPE = "body-content-type";
-	
+
 	public static final String REQUEST_BODY = "request-body";
-	
+
 	public static final String HEADER_NAME = "header-name";
-	
+
 	public static final String HEADER_VALUE = "header-value";
-	
+
 	public static final String TIMEOUT = "timeout";
 
 	public static final String RETRY_COUNT = "retryCount";
@@ -78,9 +80,9 @@ public class RequestExecutor implements ShapeExecutor,Grammerable, SpiderListene
 	public static final String RETRY_INTERVAL = "retryInterval";
 
 	public static final String RESPONSE_CHARSET = "response-charset";
-	
+
 	public static final String FOLLOW_REDIRECT = "follow-redirect";
-	
+
 	public static final String TLS_VALIDATE = "tls-validate";
 
 	public static final String LAST_EXECUTE_TIME = "__last_execute_time_";
@@ -106,7 +108,7 @@ public class RequestExecutor implements ShapeExecutor,Grammerable, SpiderListene
 	private Double errorRate;
 
 	private static final Logger logger = LoggerFactory.getLogger(RequestExecutor.class);
-	
+
 	@Override
 	public String supportShape() {
 		return "request";
@@ -318,8 +320,9 @@ public class RequestExecutor implements ShapeExecutor,Grammerable, SpiderListene
 								if(!directory.exists()){
 									directory.mkdirs();
 								}
-								FileUtils.write(file,url + "\r\n","UTF-8",true);
-							} catch (IOException ignored) {
+								FileUtil.appendUtf8String(url + StrUtil.CRLF,file);
+							} catch (IORuntimeException ignored) {
+								logger.error("请求追加内容出错，错误原因：{}",ignored.getMessage());
 							}
 						}
                         logger.error("请求{}出错,异常信息:{}",url,exception);
@@ -328,7 +331,7 @@ public class RequestExecutor implements ShapeExecutor,Grammerable, SpiderListene
 			}
 		}
 	}
-	
+
 	private List<InputStream> setRequestFormParameter(SpiderNode node, HttpRequest request,List<Map<String, String>> parameters,SpiderContext context,Map<String,Object> variables){
 		List<InputStream> streams = new ArrayList<>();
 		if(parameters != null){
@@ -364,7 +367,7 @@ public class RequestExecutor implements ShapeExecutor,Grammerable, SpiderListene
 							context.pause(node.getNodeId(),"request-body",parameterName,value);
 							logger.info("设置请求参数：{}={}",parameterName,value);
 						}
-						
+
 					} catch (Exception e) {
 						logger.error("设置请求参数：{}出错,异常信息:{}",parameterName,e);
 					}

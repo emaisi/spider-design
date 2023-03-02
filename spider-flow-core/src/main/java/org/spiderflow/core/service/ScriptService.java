@@ -1,10 +1,11 @@
 package org.spiderflow.core.service;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.IORuntimeException;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.PumpStreamHandler;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,7 @@ public class ScriptService {
      */
     public boolean saveScript(String scriptName,String filename,String content){
         try {
-            FileUtils.write(getScriptFile(scriptName,filename),content,"UTF-8");
+            FileUtil.writeUtf8String(  content,getScriptFile(scriptName,filename));
             return true;
         } catch (Exception e) {
             return false;
@@ -103,7 +104,7 @@ public class ScriptService {
         if(!file.exists()){
             return null;
         }
-        return FileUtils.readFileToString(file,"UTF-8");
+        return FileUtil.readUtf8String(file);
     }
 
     public boolean rename(String scriptName,String oldName,String newName){
@@ -120,19 +121,19 @@ public class ScriptService {
         try {
             File scriptDirectory = getScriptDirectory(scriptName);
             if(StringUtils.isBlank(filename)){
-                FileUtils.deleteDirectory(scriptDirectory);
+                FileUtil.del(scriptDirectory);
             }else{
                 File file = getScriptFile(scriptName, filename);
                 if(!file.exists()){
                     return false;
                 }
                 if(file.isDirectory()){
-                    FileUtils.deleteDirectory(file);
+                    FileUtil.del(file);
                     return true;
                 }
                 return file.delete();
             }
-        } catch (IOException e) {
+        } catch (IORuntimeException e) {
             return false;
         }
         return true;

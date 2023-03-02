@@ -6,11 +6,11 @@ import java.util.List;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 public class SpiderLog {
-	
+
 	private String level;
-	
+
 	private String message;
-	
+
 	private List<Object> variables;
 
 	public SpiderLog(String level,String message, List<Object> variables) {

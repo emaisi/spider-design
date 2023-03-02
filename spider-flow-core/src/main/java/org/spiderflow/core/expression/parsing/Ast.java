@@ -1,7 +1,7 @@
 
 package org.spiderflow.core.expression.parsing;
 
-import org.apache.commons.lang3.StringUtils;
+import cn.hutool.core.util.StrUtil;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.spiderflow.core.expression.ExpressionError;
 import org.spiderflow.core.expression.ExpressionError.TemplateException;
@@ -1223,7 +1223,7 @@ public abstract class Ast {
 		}
 
         /** Returns the cached member descriptor as returned by {@link AbstractReflection#getMethod(Object, String, Object...)}. See
-         * {@link #setCachedMember(Object)}. **/
+         * {@link #getCachedMethod()}. **/
         public Object getCachedMethod () {
             return cachedMethod;
         }
@@ -1276,9 +1276,9 @@ public abstract class Ast {
 					} catch (Throwable t) {
 						ExpressionError.error(t.getMessage(), getSpan(), t);
 						return null; // never reached
-					} 
+					}
 				}
-				
+
 				// Otherwise try to find a corresponding method or field pointing to a lambda.
 				Object method = getCachedMethod();
 				if (method != null) {
@@ -1311,7 +1311,7 @@ public abstract class Ast {
 						ExpressionError.error(t.getMessage(), getSpan(), t);
 						return null; // never reached
 					}
-				} 
+				}
                 method = AbstractReflection.getInstance().getExtensionMethod(object, getMethod().getName().getText(), argumentValues);
 				if(method != null){
 					try {
@@ -1340,15 +1340,15 @@ public abstract class Ast {
 					// didn't find the method on the object, try to find a field pointing to a lambda
                     Object field = AbstractReflection.getInstance().getField(object, getMethod().getName().getText());
 					if (field == null){
-						ExpressionError.error("在'" + object.getClass() + "'中找不到方法 " + getMethod().getName().getText() + "(" + StringUtils.join(JavaReflection.getStringTypes(argumentValues),",") + ")",
+						ExpressionError.error("在'" + object.getClass() + "'中找不到方法 " + getMethod().getName().getText() + "(" + StrUtil.join(StrUtil.COMMA,JavaReflection.getStringTypes(argumentValues)) + ")",
 							getSpan());
 					}
                     Object function = AbstractReflection.getInstance().getFieldValue(object, field);
                     method = AbstractReflection.getInstance().getMethod(function, null, argumentValues);
 					if (method == null){
-						ExpressionError.error("在'" + object.getClass() + "'中找不到方法 " + getMethod().getName().getText() + "("+ StringUtils.join(JavaReflection.getStringTypes(argumentValues),",") +")",
+						ExpressionError.error("在'" + object.getClass() + "'中找不到方法 " + getMethod().getName().getText() + "("+ StrUtil.join(StrUtil.COMMA,JavaReflection.getStringTypes(argumentValues)) +")",
 								getSpan());
-					} 
+					}
 					try {
                         return AbstractReflection.getInstance().callMethod(function, method, argumentValues);
 					} catch (Throwable t) {

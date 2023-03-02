@@ -27,7 +27,7 @@ translator.youdao.APP_KEY=
 translator.youdao.APP_SECRET=
 translator.aliyun.ACCESS_KEY_ID= 
 translator.aliyun.ACCESS_KEY_SECRET= 
-
+translator.enable=3
 ```
 
 

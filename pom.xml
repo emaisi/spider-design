@@ -31,9 +31,15 @@
 		<xsoup.version>0.3.1</xsoup.version>
 		<mysql-connector.version>8.0.31</mysql-connector.version>
 		<hutool.version>5.8.12</hutool.version>
+		<lombo.version>1.18.4</lombo.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombo.version}</version>
+		</dependency>
 		<!-- spring-boot相关配置 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -98,16 +104,16 @@
 			<artifactId>commons-exec</artifactId>
 			<version>${apache.commons.exec.version}</version>
 		</dependency>
-		<!-- commons包 -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>${commons.io.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-		</dependency>
+<!--		 commons包 -->
+<!--		<dependency>-->
+<!--			<groupId>commons-io</groupId>-->
+<!--			<artifactId>commons-io</artifactId>-->
+<!--			<version>${commons.io.version}</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>commons-codec</groupId>-->
+<!--			<artifactId>commons-codec</artifactId>-->
+<!--		</dependency>-->
 		<!-- 其它包 -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -123,6 +129,11 @@
 			<groupId>us.codecraft</groupId>
 			<artifactId>xsoup</artifactId>
 			<version>${xsoup.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-all</artifactId>
+			<version>${hutool.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -183,11 +194,7 @@
 				<artifactId>spider-flow-translate</artifactId>
 				<version>${spider-flow.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>cn.hutool</groupId>
-				<artifactId>hutool-all</artifactId>
-				<version>${hutool.version}</version>
-			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 	<modules>

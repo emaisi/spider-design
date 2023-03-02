@@ -1,10 +1,11 @@
 package org.spiderflow.core.service;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.IORuntimeException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,13 +37,13 @@ import java.util.stream.Collectors;
  */
 @Service
 public class SpiderFlowService extends ServiceImpl<SpiderFlowMapper, SpiderFlow> {
-	
+
 	@Autowired
 	private SpiderFlowMapper sfMapper;
-	
+
 	@Autowired
 	private SpiderJobManager spiderJobManager;
-	
+
 	@Autowired
 	private FlowNoticeMapper flowNoticeMapper;
 
@@ -73,15 +75,15 @@ public class SpiderFlowService extends ServiceImpl<SpiderFlowMapper, SpiderFlow>
 	public IPage<SpiderFlow> selectSpiderPage(Page<SpiderFlow> page, String name){
 		return sfMapper.selectSpiderPage(page,name);
 	}
-	
+
 	public int executeCountIncrement(String id, Date lastExecuteTime, Date nextExecuteTime){
 		if(nextExecuteTime == null){
 			return sfMapper.executeCountIncrement(id, lastExecuteTime);
 		}
 		return sfMapper.executeCountIncrementAndExecuteTime(id, lastExecuteTime, nextExecuteTime);
-		
+
 	}
-	
+
 	/**
 	 * 重置定时任务
 	 * @param id 爬虫的ID
@@ -124,19 +126,21 @@ public class SpiderFlowService extends ServiceImpl<SpiderFlowMapper, SpiderFlow>
 		}
 		File file = new File(workspace,spiderFlow.getId() + File.separator + "xmls" + File.separator + System.currentTimeMillis() + ".xml");
 		try {
-			FileUtils.write(file,spiderFlow.getXml(),"UTF-8");
-		} catch (IOException e) {
+//			FileUtils.write(file,spiderFlow.getXml(),"UTF-8");
+			FileUtil.writeUtf8String(spiderFlow.getXml(),file);
+//		} catch (IOException e) {
+		} catch (IORuntimeException e) {
 			logger.error("保存历史记录出错",e);
 		}
 		return true;
 	}
-	
+
 	public void stop(String id){
 		sfMapper.resetSpiderStatus(id,"0");
 		sfMapper.resetNextExecuteTime(id);
 		spiderJobManager.remove(id);
 	}
-	
+
 	public void start(String id){
 		spiderJobManager.remove(id);
 		sfMapper.resetSpiderStatus(id, "1");
@@ -147,11 +151,11 @@ public class SpiderFlowService extends ServiceImpl<SpiderFlowMapper, SpiderFlow>
 			sfMapper.updateById(spiderFlow);
 		}
 	}
-	
+
 	public void run(String id){
 		spiderJobManager.run(id);
 	}
-	
+
 	public void resetExecuteCount(String id){
 		sfMapper.resetExecuteCount(id);
 	}
@@ -160,11 +164,11 @@ public class SpiderFlowService extends ServiceImpl<SpiderFlowMapper, SpiderFlow>
 		spiderJobManager.remove(id);
 		flowNoticeMapper.deleteById(id);
 	}
-	
+
 	public List<SpiderFlow> selectOtherFlows(String id){
 		return sfMapper.selectOtherFlows(id);
 	}
-	
+
 	public List<SpiderFlow> selectFlows(){
 		return sfMapper.selectFlows();
 	}
@@ -209,8 +213,8 @@ public class SpiderFlowService extends ServiceImpl<SpiderFlowMapper, SpiderFlow>
 		File file = new File(workspace, id + File.separator + "xmls" + File.separator + timestamp + ".xml");
 		if(file.exists()){
 			try {
-				return FileUtils.readFileToString(file,"UTF-8");
-			} catch (IOException e) {
+				return FileUtil.readUtf8String(file);
+			} catch (IORuntimeException e) {
 				logger.error("读取历史版本出错",e);
 			}
 		}

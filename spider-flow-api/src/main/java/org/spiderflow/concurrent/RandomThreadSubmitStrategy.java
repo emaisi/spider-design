@@ -1,6 +1,6 @@
 package org.spiderflow.concurrent;
 
-import org.apache.commons.lang3.RandomUtils;
+import cn.hutool.core.util.RandomUtil;
 import org.spiderflow.model.SpiderNode;
 
 import java.util.Comparator;
@@ -13,7 +13,7 @@ public class RandomThreadSubmitStrategy implements ThreadSubmitStrategy{
 
     @Override
     public Comparator<SpiderNode> comparator() {
-        return (o1, o2) -> RandomUtils.nextInt(0,3) - 1;
+        return (o1, o2) -> RandomUtil.randomInt(0,3) - 1;
     }
 
     @Override
@@ -28,6 +28,6 @@ public class RandomThreadSubmitStrategy implements ThreadSubmitStrategy{
 
     @Override
     public SpiderFutureTask<?> get() {
-        return taskList.remove(RandomUtils.nextInt(0, taskList.size()));
+        return taskList.remove(RandomUtil.randomInt(0, taskList.size()));
     }
 }

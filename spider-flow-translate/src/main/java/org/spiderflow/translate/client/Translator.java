@@ -1,11 +1,13 @@
 package org.spiderflow.translate.client;
 
+import lombok.extern.slf4j.Slf4j;
 import org.spiderflow.translate.client.aliyun.AliyunTranslator;
 import org.spiderflow.translate.client.baidu.BaiduTranslator;
 import org.spiderflow.translate.client.tencent.TencentTranslator;
 import org.spiderflow.translate.client.xunfei.XfyunTranslator;
 import org.spiderflow.translate.client.youdao.YoudaoTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
  * @date: 2022/6/6
  **/
 @Component
+@Slf4j
 public class Translator {
 
     static String[][] strings = {
@@ -103,7 +106,18 @@ public class Translator {
     @Autowired
     private AliyunTranslator aliyunTranslator; //5
 
+
+    @Value("${translator.enable}")
+    private Integer defaultType;
+
+    public String translate(String SourceText, String form, String to) {
+        return  translate(SourceText,form,to);
+    }
     public String translate(String SourceText, String form, String to, Integer type) {
+        if(type==null){
+            log.error("未配置使用的翻译平台");
+            return "未配置使用的翻译平台";
+        }
         int formIndex = 0;
         int toIndex = 0;
         for (int i = 0; i < strings[0].length; i++) {

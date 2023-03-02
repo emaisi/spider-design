@@ -23,10 +23,6 @@
         </dependency>
         <dependency>
             <groupId>org.spiderflow</groupId>
-            <artifactId>spider-flow-ocr</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.spiderflow</groupId>
             <artifactId>spider-flow-redis</artifactId>
         </dependency>
         <dependency>
@@ -37,6 +33,28 @@
             <groupId>org.spiderflow</groupId>
             <artifactId>spider-flow-translate</artifactId>
         </dependency>
+
+                <dependency>
+                    <groupId>org.spiderflow</groupId>
+                    <artifactId>spider-flow-ocr</artifactId>
+                </dependency>
+        <dependency>
+            <groupId>org.spiderflow</groupId>
+            <artifactId>spider-flow-minio</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.spiderflow</groupId>
+            <artifactId>spider-flow-oss</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.spiderflow</groupId>
+            <artifactId>spider-flow-mongodb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.spiderflow</groupId>
+            <artifactId>spider-flow-mailbox</artifactId>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>

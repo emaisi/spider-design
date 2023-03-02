@@ -7,6 +7,7 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.hutool.core.util.URLUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.spiderflow.annotation.Comment;
 import org.spiderflow.annotation.Example;
@@ -14,22 +15,22 @@ import org.spiderflow.executor.FunctionExecutor;
 import org.springframework.stereotype.Component;
 
 /**
- * url 按指定字符集进行编码/解码 默认字符集(UTF-8) 工具类 防止NPE 
+ * url 按指定字符集进行编码/解码 默认字符集(UTF-8) 工具类 防止NPE
  */
 @Component
 public class UrlFunctionExecutor implements FunctionExecutor{
-	
+
 	@Override
 	public String getFunctionPrefix() {
 		return "url";
 	}
-	
+
 	@Comment("获取url参数")
 	@Example("${url.parameter('http://www.baidu.com/s?wd=spider-flow','wd')}")
 	public static String parameter(String url,String key){
 		return parameterMap(url).get(key);
 	}
-	
+
 	@Comment("获取url全部参数")
 	@Example("${url.parameterMap('http://www.baidu.com/s?wd=spider-flow&abbr=sf')}")
 	public static Map<String,String> parameterMap(String url){
@@ -60,13 +61,13 @@ public class UrlFunctionExecutor implements FunctionExecutor{
 		}
 		return map;
 	}
-	
+
 	@Comment("url编码")
 	@Example("${url.encode('http://www.baidu.com/s?wd=spider-flow')}")
 	public static String encode(String url){
 		return encode(url,Charset.defaultCharset().name());
 	}
-	
+
 	@Comment("url编码")
 	@Example("${url.encode('http://www.baidu.com/s?wd=spider-flow','UTF-8')}")
 	public static String encode(String url,String charset){
@@ -76,13 +77,13 @@ public class UrlFunctionExecutor implements FunctionExecutor{
 			return null;
 		}
 	}
-	
+
 	@Comment("url解码")
 	@Example("${url.decode(strVar)}")
 	public static String decode(String url){
 		return decode(url,Charset.defaultCharset().name());
 	}
-	
+
 	@Comment("url解码")
 	@Example("${url.decode(strVar,'UTF-8')}")
 	public static String decode(String url,String charset){
@@ -91,5 +92,11 @@ public class UrlFunctionExecutor implements FunctionExecutor{
 		} catch (UnsupportedEncodingException e) {
 			return null;
 		}
+	}
+
+	@Comment("相对路径变成绝对路径")
+	@Example("${url.completeUrl(strVar,'./a.html')}")
+	public static String completeUrl(String baseUrl, String relativePath){
+		 return URLUtil.completeUrl(baseUrl,relativePath);
 	}
 }

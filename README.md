@@ -1,6 +1,12 @@
+2023-03-02
+- 新增URL函数${url.completeUrl(strVar,'./a.html')}
+- 新增string函数${string.defaultIfEmpty(str1,str2)}
+- 引用hutool工具包
+- 
 2023-03-01
 - 升级为0.5.1版本
 - 新增spider-flow-translate翻译插件
+
 
 2022-11-11
 - 升级mysql驱动版本为8.0.31

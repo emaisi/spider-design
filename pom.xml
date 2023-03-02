@@ -30,6 +30,7 @@
 		<jsoup.version>1.11.3</jsoup.version>
 		<xsoup.version>0.3.1</xsoup.version>
 		<mysql-connector.version>8.0.31</mysql-connector.version>
+		<hutool.version>5.8.12</hutool.version>
 	</properties>
 
 	<dependencies>
@@ -181,6 +182,11 @@
 				<groupId>org.spiderflow</groupId>
 				<artifactId>spider-flow-translate</artifactId>
 				<version>${spider-flow.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-all</artifactId>
+				<version>${hutool.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

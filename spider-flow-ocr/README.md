@@ -4,13 +4,13 @@
 spider-flow OCR插件
 
 #### 使用方法
+导入db文件夹sp_ocr.sql文件到数据库  
 在 spider-flow-web pom.xml引用  
 
 ```
 <dependency>
  	<groupId>org.spiderflow</groupId>
  	<artifactId>spider-flow-ocr</artifactId>
- 	<version>${spider-flow.version}</version>
 </dependency>
 ```
 

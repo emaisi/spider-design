@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
  * 爬虫任务通知实体
- * 
+ *
  * @author BillDowney
  * @date 2020年4月3日 下午2:57:46
  */
@@ -22,7 +22,7 @@ public class FlowNotice {
 	/**
 	 * 主键,对应{@link SpiderFlow}中的流程id
 	 */
-	@TableId(type = IdType.UUID)
+	@TableId(type = IdType.ASSIGN_UUID)
 	private String id;
 	/**
 	 * 收件人,多个收件人用","隔开，每个收件人可添加单独通知标记,如不添加通知标记则使用默认配置通知方式

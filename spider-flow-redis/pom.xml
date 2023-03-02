@@ -11,6 +11,7 @@
 	<url>https://gitee.com/jmxd/spider-flow-redis</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jedis.version>UTF-8</jedis.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -25,6 +26,7 @@
         <dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
+			<version>4.3.1</version>
 		</dependency>
 	</dependencies>
 </project>

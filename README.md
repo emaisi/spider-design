@@ -2,7 +2,17 @@
 - 新增URL函数${url.completeUrl(strVar,'./a.html')}
 - 新增string函数${string.defaultIfEmpty(str1,str2)}
 - 引用hutool工具包
-- 
+- 翻译新增使用默认平台功能。
+- 把commons-io、commons-codec工具包替换为hutool工具包
+- 升级mongodb到3.12.12
+- 升级springboot版本，从2.0.7.RELEASE升级到2.7.9
+- 升级mybatis.plus到3.5.3.1
+- 升级guava到31.1-jre
+- 升级连接池druid到1.2.16
+- 升级fastjson到1.12.83
+- 升级transmittable到2.14.2
+- 升级selenium版本到4.8.1
+
 2023-03-01
 - 升级为0.5.1版本
 - 新增spider-flow-translate翻译插件
@@ -12,7 +22,7 @@
 - 升级mysql驱动版本为8.0.31
 
 - 整合插件
--
+
 [翻译插件](https://gitee.com/emaisi/spider-design/tree/master/spider-flow-translate)
 
 [minio插件](https://gitee.com/emaisi/spider-design/tree/master/spider-flow-minio)

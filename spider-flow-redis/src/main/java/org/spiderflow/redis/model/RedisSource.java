@@ -10,36 +10,36 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 @TableName("sp_redis")
 public class RedisSource {
-	
-	@TableId(type = IdType.UUID)
+
+	@TableId(type = IdType.ASSIGN_UUID)
 	private String id;
-	
+
 	private String name;
-	
+
 	private String host;
-	
+
 	private Integer port;
-	
+
 	private String password;
-	
+
 	private String alias;
-	
-	@TableField(strategy = FieldStrategy.IGNORED)
+
+	@TableField(insertStrategy = FieldStrategy.IGNORED,updateStrategy =FieldStrategy.IGNORED )
 	private Integer dbIndex;
-	
-	@TableField(strategy = FieldStrategy.IGNORED)
+
+	@TableField(insertStrategy = FieldStrategy.IGNORED,updateStrategy =FieldStrategy.IGNORED )
 	private Integer maxConnections;
-	
-	@TableField(strategy = FieldStrategy.IGNORED)
+
+	@TableField(insertStrategy = FieldStrategy.IGNORED,updateStrategy =FieldStrategy.IGNORED )
 	private Integer maxIdle;
-	
-	@TableField(strategy = FieldStrategy.IGNORED)
+
+	@TableField(insertStrategy = FieldStrategy.IGNORED,updateStrategy =FieldStrategy.IGNORED )
 	private Integer minIdle;
-	
+
 	private Date createDate;
-	
-	
-	
+
+
+
 	public String getAlias() {
 		return alias;
 	}

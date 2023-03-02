@@ -9,25 +9,25 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 @TableName("sp_mongo")
 public class MongoDataSource {
-	
-	@TableId(type = IdType.UUID)
+
+	@TableId(type = IdType.ASSIGN_UUID)
 	private String id;
-	
+
 	private String name;
-	
+
 	private String alias;
-	
+
 	private String host;
-	
+
 	private Integer port;
-	
+
 	@TableField("`database`")
 	private String database;
-	
+
 	private String username;
-	
+
 	private String password;
-	
+
 	private Date createDate;
 
 	public String getId() {
@@ -101,6 +101,6 @@ public class MongoDataSource {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-	
-	
+
+
 }

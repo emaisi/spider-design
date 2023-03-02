@@ -20,6 +20,7 @@ import org.spiderflow.core.mapper.SpiderFlowMapper;
 import org.spiderflow.core.model.SpiderFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -42,6 +43,7 @@ public class SpiderFlowService extends ServiceImpl<SpiderFlowMapper, SpiderFlow>
 	private SpiderFlowMapper sfMapper;
 
 	@Autowired
+	@Lazy
 	private SpiderJobManager spiderJobManager;
 
 	@Autowired

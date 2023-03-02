@@ -22,23 +22,22 @@ import org.springframework.stereotype.Component;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
-import redis.clients.util.SafeEncoder;
 
 @Component
 @Comment("redis常用方法")
 public class RedisFunctionExecutor extends HashMap<String, Object> implements FunctionExecutor{
-	
+
 	private static final long serialVersionUID = 924273531304909956L;
 
 	public final static Map<String,RedisTemplate<?, ?>> REDIS_CACHED_TEMPLATE = new HashMap<String, RedisTemplate<?,?>>();
 
 	private static RedisSourceService redisSourceService;
-	
+
 	@Override
 	public String getFunctionPrefix() {
 		return "redis";
 	}
-	
+
 	private static RedisTemplate<?,?> findRedisTemplate(String alias){
 		RedisTemplate<?, ?> redisTemplate = REDIS_CACHED_TEMPLATE.get(alias);
 		if(redisTemplate == null){
@@ -51,16 +50,16 @@ public class RedisFunctionExecutor extends HashMap<String, Object> implements Fu
 		}
 		return redisTemplate;
 	}
-	
+
 	private static byte[] serializer(RedisSerializer<String> stringSerializer,Object value){
 		if(value == null || value instanceof String){
 			return stringSerializer.serialize((String) value);
 		}else if(value != null && value instanceof Number){
-			return SafeEncoder.encode(String.valueOf(value));
+			return stringSerializer.serialize((String.valueOf(value)) );
 		}
 		return serializer(stringSerializer, value.toString());
 	}
-	
+
 	private static Object deserialize(RedisSerializer<String> stringSerializer,Object value){
 		if(value != null){
 			if(value instanceof byte[]){
@@ -78,22 +77,22 @@ public class RedisFunctionExecutor extends HashMap<String, Object> implements Fu
 		}
 		return value;
 	}
-	
+
 	@Override
 	public Object get(Object key) {
 		return use(key == null ? null : key.toString());
 	}
-	
+
 	@Comment("选择数据源")
 	@Example("${redis.use('aliasName')}或${redis.aliasName}")
 	public static synchronized DynamicMethod use(String alias){
 		return createDynamicMethod(findRedisTemplate(alias));
 	}
-	
+
 	private static DynamicMethod createDynamicMethod(RedisTemplate<?, ?> redisTemplate){
 		RedisSerializer<String> stringSerializer = redisTemplate.getStringSerializer();
 		return new DynamicMethod() {
-			
+
 			@Override
 			public Object execute(String methodName, List<Object> parameters) {
 				return redisTemplate.execute(new RedisCallback<Object>() {
@@ -109,7 +108,7 @@ public class RedisFunctionExecutor extends HashMap<String, Object> implements Fu
 				});
 			}
 		};
-	} 
+	}
 
 	@Autowired
 	public void setRedisSourceService(RedisSourceService redisSourceService) {

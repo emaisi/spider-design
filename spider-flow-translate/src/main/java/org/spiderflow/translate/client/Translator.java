@@ -1,5 +1,6 @@
 package org.spiderflow.translate.client;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.spiderflow.translate.client.aliyun.AliyunTranslator;
 import org.spiderflow.translate.client.baidu.BaiduTranslator;
@@ -110,13 +111,16 @@ public class Translator {
     @Value("${translator.enable}")
     private Integer defaultType;
 
-    public String translate(String SourceText, String form, String to) {
-        return  translate(SourceText,form,to,defaultType);
+    public String translate(String sourceText, String form, String to) {
+        return  translate(sourceText,form,to,defaultType);
     }
-    public String translate(String SourceText, String form, String to, Integer type) {
+    public String translate(String sourceText, String form, String to, Integer type) {
         if(type==null){
             log.error("未配置使用的翻译平台");
             return "未配置使用的翻译平台";
+        }
+        if(StrUtil.isEmpty(sourceText)){
+            return sourceText;
         }
         int formIndex = 0;
         int toIndex = 0;
@@ -140,7 +144,7 @@ public class Translator {
                 if (form.equals("null") || to.equals("null")) {
                     break;
                 }
-                re = tencentTranslator.translate(SourceText, form, to);
+                re = tencentTranslator.translate(sourceText, form, to);
                 break;
             case 2:
                 form = strings[2][formIndex];
@@ -148,7 +152,7 @@ public class Translator {
                 if (form.equals("null") || to.equals("null")) {
                     break;
                 }
-                re = xfyunTranslator.translate(SourceText, form, to);
+                re = xfyunTranslator.translate(sourceText, form, to);
                 break;
             case 3:
                 form = strings[3][formIndex];
@@ -156,7 +160,7 @@ public class Translator {
                 if (form.equals("null") || to.equals("null")) {
                     break;
                 }
-                re = baiduTranslator.translate(SourceText, form, to);
+                re = baiduTranslator.translate(sourceText, form, to);
                 break;
             case 4:
                 form = strings[4][formIndex];
@@ -164,7 +168,7 @@ public class Translator {
                 if (form.equals("null") || to.equals("null")) {
                     break;
                 }
-                re = youdaoTranslator.translate(SourceText, form, to);
+                re = youdaoTranslator.translate(sourceText, form, to);
                 break;
             case 5:
                 form = strings[5][formIndex];
@@ -172,7 +176,7 @@ public class Translator {
                 if (form.equals("null") || to.equals("null")) {
                     break;
                 }
-                re = aliyunTranslator.translate(SourceText, form, to);
+                re = aliyunTranslator.translate(sourceText, form, to);
                 break;
         }
         return re;

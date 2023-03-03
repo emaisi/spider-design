@@ -84,7 +84,7 @@ public class YoudaoTranslator {
              s = requestForHttp(YOUDAO_URL, params);
         } catch (IOException e) {
 
-            log.error("阿里云翻译出错,错误原因:{}",e.getMessage());
+            log.error("有道云翻译出错,错误原因:{}",e.getMessage());
         }
         JSONObject jsonObject = JSON.parseObject(s);
         JSONArray translation = (JSONArray) jsonObject.get("translation");

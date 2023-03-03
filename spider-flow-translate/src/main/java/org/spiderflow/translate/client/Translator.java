@@ -111,7 +111,7 @@ public class Translator {
     private Integer defaultType;
 
     public String translate(String SourceText, String form, String to) {
-        return  translate(SourceText,form,to);
+        return  translate(SourceText,form,to,defaultType);
     }
     public String translate(String SourceText, String form, String to, Integer type) {
         if(type==null){

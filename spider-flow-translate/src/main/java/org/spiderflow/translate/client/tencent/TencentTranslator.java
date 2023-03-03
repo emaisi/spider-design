@@ -9,6 +9,7 @@ import com.tencentcloudapi.common.profile.HttpProfile;
 import com.tencentcloudapi.tmt.v20180321.TmtClient;
 import com.tencentcloudapi.tmt.v20180321.models.TextTranslateRequest;
 import com.tencentcloudapi.tmt.v20180321.models.TextTranslateResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
  **/
 @Configuration
 @ConfigurationProperties(prefix = "translator.tencent")
+@Slf4j
 public class TencentTranslator {
     String secretId;
     String secretKey;
@@ -69,7 +71,7 @@ public class TencentTranslator {
             json.put("targetText", targetText);
             return targetText;
         } catch (TencentCloudSDKException e) {
-            System.out.println(e.toString());
+            log.error("腾讯云翻译出错,错误原因:{}",e.getMessage());
         }
         return null;
     }

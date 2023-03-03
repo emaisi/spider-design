@@ -1,5 +1,7 @@
 package org.spiderflow.translate.client.xunfei;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -10,6 +12,7 @@ import java.util.Map;
 /**
  * Http Client 工具类
  */
+@Slf4j
 public class HttpUtil {
 	/**
 	 * 发送post请求，根据 Content-Type 返回不同的返回值
@@ -41,7 +44,7 @@ public class HttpUtil {
 			out.flush();
 			if (HttpURLConnection.HTTP_OK != httpURLConnection.getResponseCode()) {
 				BufferedReader br = new BufferedReader(new InputStreamReader(httpURLConnection.getErrorStream()));
-				System.out.println("Http 请求失败，状态码：" + httpURLConnection.getResponseCode() + "，错误信息：" + br.readLine());
+				log.info("Http 请求失败，状态码：" + httpURLConnection.getResponseCode() + "，错误信息：" + br.readLine());
 				return null;
 			}
 			// 获取响应header
@@ -67,6 +70,7 @@ public class HttpUtil {
 				return resultMap;
 			}
 		} catch (Exception e) {
+			log.error("讯飞调用接口出错：{}",e.getMessage());
 			return null;
 		}
 	}
@@ -101,8 +105,8 @@ public class HttpUtil {
 			// 发送body
 			out.flush();
 			if (HttpURLConnection.HTTP_OK != httpURLConnection.getResponseCode()) {
-				System.out.println("Http 请求失败，状态码：" + httpURLConnection.getResponseCode());
-				return null;
+				log.info("Http 请求失败，状态码：" + httpURLConnection.getResponseCode());
+ 				return null;
 			}
 
 			// 获取响应body
@@ -112,6 +116,7 @@ public class HttpUtil {
 				result += line;
 			}
 		} catch (Exception e) {
+			log.error("调用讯飞接口出错：{}",e.getMessage());
 			return null;
 		}
 		return result;

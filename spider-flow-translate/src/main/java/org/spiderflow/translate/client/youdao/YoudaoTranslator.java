@@ -3,6 +3,7 @@ package org.spiderflow.translate.client.youdao;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -33,6 +34,7 @@ import java.util.*;
  **/
 @Configuration
 @ConfigurationProperties(prefix = "translator.youdao")
+@Slf4j
 public class YoudaoTranslator {
 
 
@@ -81,7 +83,8 @@ public class YoudaoTranslator {
         try {
              s = requestForHttp(YOUDAO_URL, params);
         } catch (IOException e) {
-            e.printStackTrace();
+
+            log.error("阿里云翻译出错,错误原因:{}",e.getMessage());
         }
         JSONObject jsonObject = JSON.parseObject(s);
         JSONArray translation = (JSONArray) jsonObject.get("translation");

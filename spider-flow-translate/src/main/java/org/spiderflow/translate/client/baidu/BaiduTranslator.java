@@ -3,6 +3,7 @@ package org.spiderflow.translate.client.baidu;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
  **/
 @Configuration
 @ConfigurationProperties(prefix = "translator.baidu")
+@Slf4j
 public class BaiduTranslator {
     private String APP_ID;
     private String SECURITY_KEY;
@@ -37,7 +39,7 @@ public class BaiduTranslator {
     public String translate(String SourceText, String form, String to) {
         TransApi api = new TransApi(APP_ID, SECURITY_KEY);
         String transResult = api.getTransResult(SourceText, form, to);
-        System.out.println(transResult);
+        log.info("百度云翻译,返回数据为:{}",transResult);
         JSONObject js = JSON.parseObject(transResult);
         JSONArray trans_result = (JSONArray) js.get("trans_result");
         JSONObject o = (JSONObject)trans_result.get(0);

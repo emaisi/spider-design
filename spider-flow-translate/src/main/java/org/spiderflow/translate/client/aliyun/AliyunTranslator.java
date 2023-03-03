@@ -2,6 +2,7 @@ package org.spiderflow.translate.client.aliyun;
 
 import com.aliyun.alimt20181012.models.TranslateGeneralRequest;
 import com.aliyun.alimt20181012.models.TranslateGeneralResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.spiderflow.translate.enums.FormatTypeEnum;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties(prefix = "translator.aliyun")
+@Slf4j
 public class AliyunTranslator {
     private String ACCESS_KEY_ID;
     private String ACCESS_KEY_SECRET;
@@ -34,18 +36,20 @@ public class AliyunTranslator {
 
         try {
             // 工程代码泄露可能会导致AccessKey泄露，并威胁账号下所有资源的安全性。以下代码示例仅供参考，建议使用更安全的 STS 方式，更多鉴权访问方式请参见：https://help.aliyun.com/document_detail/378657.html
-            com.aliyun.alimt20181012.Client client = AliyunTranslator.createClient(ACCESS_KEY_ID, ACCESS_KEY_SECRET);
+//            com.aliyun.alimt20181012.Client client = AliyunTranslator.createClient(ACCESS_KEY_ID, ACCESS_KEY_SECRET);
+            com.aliyun.alimt20181012.Client client = AliyunTranslator.createClient("LTAI5tRwF5afCn66q5uJgPQf", "VOXpdaU6ViBV2RIsis4i6MF8v7mKxy");
             TranslateGeneralRequest request = new TranslateGeneralRequest()
-                    .setFormatType(FormatTypeEnum.TEXT.getInfo())
+                    .setFormatType(FormatTypeEnum.HTML.getInfo())
                     .setSourceLanguage(form)
                     .setTargetLanguage(to)
+                    .setScene("general")
                     .setSourceText(SourceText);
             TranslateGeneralResponse response = client.translateGeneral(request);
             return response.body.data.translated;
 
 
         } catch (Exception _error) {
-
+            log.error("阿里云翻译出错,错误原因:{}",_error.getMessage());
             return _error.getMessage();
         }
 

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.internal.LinkedTreeMap;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,6 +20,7 @@ import java.util.*;
 
 @Configuration
 @ConfigurationProperties(prefix = "translator.xfyun")
+@Slf4j
 public class XfyunTranslator {
     // OTS webapi 接口地址
     private static final String WebITS_URL = "https://itrans.xfyun.cn/v2/its";
@@ -95,7 +97,7 @@ public class XfyunTranslator {
 
         //组装authorization
         String authorization = String.format("api_key=\"%s\", algorithm=\"%s\", headers=\"%s\", signature=\"%s\"", API_KEY, "hmac-sha256", "host date request-line digest", sha);
-        System.out.println("【ITS WebAPI authorization】\n" + authorization);
+        log.info("【ITS WebAPI authorization】\n" + authorization);
 
         header.put("Authorization", authorization);
         header.put("Content-Type", "application/json");
@@ -103,7 +105,7 @@ public class XfyunTranslator {
         header.put("Host", url.getHost());
         header.put("Date", date);
         header.put("Digest", digestBase64);
-        System.out.println("【ITS WebAPI header】\n" + header);
+        log.info("【ITS WebAPI header】\n" + header);
         return header;
     }
 

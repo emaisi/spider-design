@@ -1,6 +1,6 @@
 2023-03-06
 - 新增spider-design-plugin插件模块
-- 把mailbox、minio、mongodb、ocr、oss、proxypool、redis、selenium、translate插件移入spider-design-plugin插件
+- 把mailbox、minio、mongodb、ocr、oss、redis、selenium、translate插件移入spider-design-plugin插件
 
 
 2023-03-03

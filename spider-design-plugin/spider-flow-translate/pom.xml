@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.spiderflow</groupId>
+        <artifactId>spider-design-plugin</artifactId>
+        <version>0.5.1</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>spider-flow-translate</artifactId>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <aliyun.version>1.0.3</aliyun.version>
+        <tencentcloud.version>3.1.522</tencentcloud.version>
+        <httpclient.version>4.5.14</httpclient.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.spiderflow</groupId>
+            <artifactId>spider-flow-api</artifactId>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jsoup</artifactId>
+                    <groupId>org.jsoup</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- 阿里云的翻译  -->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>alimt20181012</artifactId>
+            <version>${aliyun.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.squareup.okhttp3</groupId>
+                    <artifactId>okhttp</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.4.1</version>
+        </dependency>
+        <!-- 腾讯云的翻译  -->
+        <dependency>
+            <groupId>com.tencentcloudapi</groupId>
+            <artifactId>tencentcloud-sdk-java</artifactId>
+            <version>${tencentcloud.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
+    </dependencies>
+</project>

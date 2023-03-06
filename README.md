@@ -1,3 +1,8 @@
+2023-03-06
+- 新增spider-design-plugin插件模块
+- 把mailbox、minio、mongodb、ocr、oss、proxypool、redis、selenium、translate插件移入spider-design-plugin插件
+
+
 2023-03-03
 - 配置中中文乱码问题，把配置文件properties修改为yml
 - fix升级版本后阿里云翻译翻译报错

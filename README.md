@@ -1,4 +1,11 @@
 2023-03-02
+- 配置中中文乱码问题，把配置文件properties修改为yml
+- fix升级版本后阿里云翻译翻译报错
+- 翻译接口调整为翻译内容为空时候不调用翻译接口
+- 调整翻译接口的命名
+- 翻译报错添加日志打印
+
+2023-03-02
 - 新增URL函数${url.completeUrl(strVar,'./a.html')}
 - 新增string函数${string.defaultIfEmpty(str1,str2)}
 - 引用hutool工具包

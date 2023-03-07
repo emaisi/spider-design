@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.spiderdesign</groupId>
+		<artifactId>spider-design</artifactId>
+		<version>${revision}</version>
+	</parent>
+	<artifactId>spider-design-core</artifactId>
+	<name>spider-design-core</name>
+	<url>https://gitee.com/emaisi/spider-design/tree/master/spider-design-core</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.spiderdesign</groupId>
+			<artifactId>spider-design-api</artifactId>
+		</dependency>
+	</dependencies>
+</project>

@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>spider-flow</artifactId>
-        <groupId>org.spiderflow</groupId>
+        <groupId>org.spiderdesign</groupId>
+        <artifactId>spider-design</artifactId>
         <version>${revision}</version>
     </parent>
     <packaging>pom</packaging>
@@ -16,15 +16,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <modules>
-        <module>spider-flow-elasticsearch</module>
-        <module>spider-flow-mailbox</module>
-        <module>spider-flow-minio</module>
-        <module>spider-flow-mongodb</module>
-        <module>spider-flow-ocr</module>
-        <module>spider-flow-oss</module>
-        <module>spider-flow-proxypool</module>
-        <module>spider-flow-redis</module>
-        <module>spider-flow-selenium</module>
-        <module>spider-flow-translate</module>
+        <module>spider-design-elasticsearch</module>
+        <module>spider-design-mailbox</module>
+        <module>spider-design-minio</module>
+        <module>spider-design-mongodb</module>
+        <module>spider-design-ocr</module>
+        <module>spider-design-oss</module>
+        <module>spider-design-proxypool</module>
+        <module>spider-design-redis</module>
+        <module>spider-design-selenium</module>
+        <module>spider-design-translate</module>
     </modules>
 </project>

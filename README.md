@@ -1,3 +1,7 @@
+2023-03-08
+- 把spider-spider 修改为 spider-design
+- 并设置版本为0.6.0
+
 2023-03-07
 - 新增spider-design-elasticsearch插件
 - 使用maven的revision

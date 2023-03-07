@@ -16,7 +16,7 @@
 		<version>2.7.9</version>
 	</parent>
 	<properties>
-		<revision>0.5.1</revision>
+		<revision>0.6.0</revision>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spider-design.version>${project.version}</spider-design.version>
 		<alibaba.fastjson.version>1.2.83</alibaba.fastjson.version>

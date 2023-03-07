@@ -25,12 +25,12 @@ public class SpiderFlowThreadPoolExecutor {
 	/**
 	 * ThreadGroup
 	 */
-	private static final ThreadGroup SPIDER_FLOW_THREAD_GROUP = new ThreadGroup("spider-flow-group");
+	private static final ThreadGroup SPIDER_FLOW_THREAD_GROUP = new ThreadGroup("spider-design-group");
 
 	/**
 	 * 线程名称前缀
 	 */
-	private static final String THREAD_POOL_NAME_PREFIX = "spider-flow-";
+	private static final String THREAD_POOL_NAME_PREFIX = "spider-design-";
 
 	public SpiderFlowThreadPoolExecutor(int maxThreads) {
 		super();
@@ -94,7 +94,7 @@ public class SpiderFlowThreadPoolExecutor {
 			this.futures = new Future[threads];
 			this.submitStrategy = submitStrategy;
 		}
-		
+
 		/**
 		 * 等待所有线程执行完毕
 		 */
@@ -108,7 +108,7 @@ public class SpiderFlowThreadPoolExecutor {
 				submitStrategy.notifyAll();
 			}
 		}
-		
+
 		private int index(){
 			for (int i = 0; i < threads; i++) {
 				if(futures[i] == null || futures[i].isDone()){
@@ -129,7 +129,7 @@ public class SpiderFlowThreadPoolExecutor {
 					}
 				} catch (Throwable t) {
 					//忽略异常
-				} 
+				}
 			}
 		}
 

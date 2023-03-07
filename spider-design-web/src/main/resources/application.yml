@@ -1,0 +1,101 @@
+server:
+  port: 8088
+
+logging:
+  level:
+    root: INFO
+
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration,org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      fail_on_empty_beans: false
+    time-zone: GMT+8
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/spiderflow?useSSL=false&useUnicode=true&characterEncoding=UTF8&autoReconnect=true
+    username: root
+    password: 123456
+
+  #JavaMailSender 邮件发送的配置
+  mail:
+    default-encoding: UTF-8
+    host: smtp.qq.com
+    password: xxxx
+    port: 465
+    properties:
+      mail:
+        smtp:
+          auth: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false
+            port: 465
+          starttls:
+            enable: true
+            required: true
+    protocol: smtp
+    username: xxxx@qq.com
+
+
+spider:
+  bloomfilter:
+    #布隆过滤器默认容量
+    capacity: 1000000
+    #布隆过滤器默认容错率
+    error-rate: 0.0001
+  detect:
+    #死循环检测(节点执行次数超过该值时认为是死循环)默认值为5000
+    dead-cycle: 5000
+  job:
+    #设置为true时定时任务才生效
+    enable: false
+  thread:
+    #单任务默认最大线程数
+    default: 8
+    #平台最大线程数
+    max: 64
+  #爬虫任务的工作空间
+  workspace: /data/spider
+  ##爬虫通知相关内容配置,可使用SpiderFlow中的变量名和以下变量名:currentDate:当前发送时间
+  notice:
+    content:
+      end: 流程执行完毕：{name}，结束时间：{currentDate}
+      exception: 流程发生异常：{name}，异常时间：{currentDate}
+      start: 流程开始执行：{name}，开始时间：{currentDate}
+    subject: spider-design流程通知
+
+#selenium 插件配置
+selenium:
+  driver:
+    #设置chrome的WebDriver驱动路径，下载地址：http://npm.taobao.org/mirrors/chromedriver/，注意版本问题
+    chrome: E:\\project\\landa\\spider-design\\driver\\chromedriver.exe
+    #设置fireFox的WebDriver驱动路径，下载地址：https://github.com/mozilla/geckodriver/releases
+    firefox: E:\\driver\\geckodriver.exe
+#翻译插件配置
+translator:
+  #默认启用发翻译编号，1:tencent，2:讯飞，3:百度，4:有道,5:阿里云
+  enable: 5
+  #腾讯翻译
+  tencent:
+    secret-id:
+    secret-key:
+  #讯飞翻译
+  xfyun:
+    APIKey:
+    APISecret:
+    APPID:
+  #百度翻译
+  baidu:
+    APP_ID:
+    SECURITY_KEY:
+  #有道翻译
+  youdao:
+    APP_KEY:
+    APP_SECRET:
+  #阿里云翻译
+  aliyun:
+    ACCESS_KEY_ID:
+    ACCESS_KEY_SECRET:

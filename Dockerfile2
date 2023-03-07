@@ -13,8 +13,8 @@ RUN mvn clean package
 
 FROM adoptopenjdk/openjdk11:alpine-slim
 
-COPY --from=build /usr/src/app/spider-flow-web/target/spider-flow.jar .
+COPY --from=build /usr/src/app/spider-design-web/target/spider-design.jar .
 
 EXPOSE 8088
 
-CMD java -jar spider-flow.jar
+CMD java -jar spider-design.jar

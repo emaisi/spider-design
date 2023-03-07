@@ -3,12 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.spiderflow</groupId>
-	<artifactId>spider-flow</artifactId>
+	<groupId>org.spiderdesign</groupId>
+	<artifactId>spider-design</artifactId>
 	<version>${revision}</version>
 	<packaging>pom</packaging>
-	<name>spider-flow</name>
-	<url>https://gitee.com/jmxd/spider-flow</url>
+	<name>spider-design</name>
+	<url>https://gitee.com/emaisi/spider-design</url>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -18,7 +18,7 @@
 	<properties>
 		<revision>0.5.1</revision>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spider-flow.version>${project.version}</spider-flow.version>
+		<spider-design.version>${project.version}</spider-design.version>
 		<alibaba.fastjson.version>1.2.83</alibaba.fastjson.version>
 		<alibaba.druid.version>1.2.16</alibaba.druid.version>
 <!--		<alibaba.transmittable.version>2.11.5</alibaba.transmittable.version>-->
@@ -139,68 +139,67 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>org.spiderflow</groupId>
-				<artifactId>spider-flow-api</artifactId>
-				<version>${spider-flow.version}</version>
+				<groupId>org.spiderdesign</groupId>
+				<artifactId>spider-design-api</artifactId>
+				<version>${spider-design.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.spiderflow</groupId>
-				<artifactId>spider-flow-core</artifactId>
-				<version>${spider-flow.version}</version>
+				<groupId>org.spiderdesign</groupId>
+				<artifactId>spider-design-core</artifactId>
+				<version>${spider-design.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.spiderflow</groupId>
-				<artifactId>spider-flow-selenium</artifactId>
-				<version>${spider-flow.version}</version>
+				<groupId>org.spiderdesign</groupId>
+				<artifactId>spider-design-selenium</artifactId>
+				<version>${spider-design.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.spiderflow</groupId>
-				<artifactId>spider-flow-proxypool</artifactId>
-				<version>${spider-flow.version}</version>
+				<groupId>org.spiderdesign</groupId>
+				<artifactId>spider-design-proxypool</artifactId>
+				<version>${spider-design.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.spiderflow</groupId>
-				<artifactId>spider-flow-mongodb</artifactId>
-				<version>${spider-flow.version}</version>
+				<groupId>org.spiderdesign</groupId>
+				<artifactId>spider-design-mongodb</artifactId>
+				<version>${spider-design.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.spiderflow</groupId>
-				<artifactId>spider-flow-redis</artifactId>
-				<version>${spider-flow.version}</version>
+				<groupId>org.spiderdesign</groupId>
+				<artifactId>spider-design-redis</artifactId>
+				<version>${spider-design.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.spiderflow</groupId>
-				<artifactId>spider-flow-ocr</artifactId>
-				<version>${spider-flow.version}</version>
+				<groupId>org.spiderdesign</groupId>
+				<artifactId>spider-design-ocr</artifactId>
+				<version>${spider-design.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.spiderflow</groupId>
-				<artifactId>spider-flow-oss</artifactId>
-				<version>${spider-flow.version}</version>
+				<groupId>org.spiderdesign</groupId>
+				<artifactId>spider-design-oss</artifactId>
+				<version>${spider-design.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.spiderflow</groupId>
-				<artifactId>spider-flow-mailbox</artifactId>
-				<version>${spider-flow.version}</version>
+				<groupId>org.spiderdesign</groupId>
+				<artifactId>spider-design-mailbox</artifactId>
+				<version>${spider-design.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.spiderflow</groupId>
-				<artifactId>spider-flow-minio</artifactId>
-				<version>${spider-flow.version}</version>
+				<groupId>org.spiderdesign</groupId>
+				<artifactId>spider-design-minio</artifactId>
+				<version>${spider-design.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.spiderflow</groupId>
-				<artifactId>spider-flow-translate</artifactId>
-				<version>${spider-flow.version}</version>
+				<groupId>org.spiderdesign</groupId>
+				<artifactId>spider-design-translate</artifactId>
+				<version>${spider-design.version}</version>
 			</dependency>
 
 		</dependencies>
 	</dependencyManagement>
 	<modules>
-		<module>spider-flow-api</module>
-		<module>spider-flow-core</module>
-		<module>spider-flow-web</module>
+		<module>spider-design-api</module>
+		<module>spider-design-core</module>
+		<module>spider-design-web</module>
         <module>spider-design-plugin</module>
-		<module>spider-design-plugin/spider-flow-elasticsearch</module>
 	</modules>
 </project>

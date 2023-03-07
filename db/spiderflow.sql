@@ -179,3 +179,20 @@ CREATE TABLE `sp_redis` (
   `create_date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+/**  elasticsearch  插件 **/
+-- ----------------------------
+-- Table structure for sp_elasticsearch
+-- ----------------------------
+DROP TABLE IF EXISTS `sp_elasticsearch`;
+CREATE TABLE `sp_elasticsearch`  (
+                                     `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+                                     `host` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+                                     `alias` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+                                     `port` int(11) NULL DEFAULT NULL,
+                                     `create_date` datetime DEFAULT CURRENT_TIMESTAMP,
+                                     `username` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+                                     `password` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+                                     PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;

@@ -10,7 +10,7 @@
         </encoder>
     </appender>
     <!-- 输出日志文件 -->
-    <appender name="File"  class="org.spiderdesignlogback.SpiderDesignFileAppender">
+    <appender name="File"  class="org.spiderdesign.logback.SpiderFlowFileAppender">
         <file>${WORKSPACE}/logs/spider-design.log</file>
         <append>true</append>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -19,7 +19,7 @@
         </encoder>
     </appender>
     <!-- WebSocket输出日志 -->
-    <appender name="WebSocket" class="org.spiderdesign.logback.SpiderDesignWebSocketAppender"/>
+    <appender name="WebSocket" class="org.spiderdesign.logback.SpiderFlowWebSocketAppender"/>
     <!-- 日志输出级别 -->
     <root level="${LOG_LEVEL}">
         <appender-ref ref="Stdout" />

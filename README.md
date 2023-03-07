@@ -1,3 +1,7 @@
+2023-03-07
+- 新增spider-flow-elasticsearch插件
+- 使用maven的revision
+
 2023-03-06
 - 新增spider-design-plugin插件模块
 - 把mailbox、minio、mongodb、ocr、oss、redis、selenium、translate插件移入spider-design-plugin插件

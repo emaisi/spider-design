@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.spiderflow</groupId>
 		<artifactId>spider-design-plugin</artifactId>
-		<version>0.5.1</version>
+		<version>${revision}</version>
 	</parent>
 	<artifactId>spider-flow-redis</artifactId>
 	<name>spider-flow-redis</name>

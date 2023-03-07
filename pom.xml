@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.spiderflow</groupId>
 	<artifactId>spider-flow</artifactId>
-	<version>0.5.1</version>
+	<version>${revision}</version>
 	<packaging>pom</packaging>
 	<name>spider-flow</name>
 	<url>https://gitee.com/jmxd/spider-flow</url>
@@ -16,6 +16,7 @@
 		<version>2.7.9</version>
 	</parent>
 	<properties>
+		<revision>0.5.1</revision>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spider-flow.version>${project.version}</spider-flow.version>
 		<alibaba.fastjson.version>1.2.83</alibaba.fastjson.version>
@@ -200,5 +201,6 @@
 		<module>spider-flow-core</module>
 		<module>spider-flow-web</module>
         <module>spider-design-plugin</module>
-    </modules>
+		<module>spider-design-plugin/spider-flow-elasticsearch</module>
+	</modules>
 </project>

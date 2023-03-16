@@ -18,7 +18,6 @@
 	<properties>
 		<revision>0.6.0</revision>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spider-design.version>${project.version}</spider-design.version>
 		<alibaba.fastjson.version>1.2.83</alibaba.fastjson.version>
 		<alibaba.druid.version>1.2.16</alibaba.druid.version>
 <!--		<alibaba.transmittable.version>2.11.5</alibaba.transmittable.version>-->
@@ -141,57 +140,57 @@
 			<dependency>
 				<groupId>org.spiderdesign</groupId>
 				<artifactId>spider-design-api</artifactId>
-				<version>${spider-design.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.spiderdesign</groupId>
 				<artifactId>spider-design-core</artifactId>
-				<version>${spider-design.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.spiderdesign</groupId>
 				<artifactId>spider-design-selenium</artifactId>
-				<version>${spider-design.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.spiderdesign</groupId>
 				<artifactId>spider-design-proxypool</artifactId>
-				<version>${spider-design.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.spiderdesign</groupId>
 				<artifactId>spider-design-mongodb</artifactId>
-				<version>${spider-design.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.spiderdesign</groupId>
 				<artifactId>spider-design-redis</artifactId>
-				<version>${spider-design.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.spiderdesign</groupId>
 				<artifactId>spider-design-ocr</artifactId>
-				<version>${spider-design.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.spiderdesign</groupId>
 				<artifactId>spider-design-oss</artifactId>
-				<version>${spider-design.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.spiderdesign</groupId>
 				<artifactId>spider-design-mailbox</artifactId>
-				<version>${spider-design.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.spiderdesign</groupId>
 				<artifactId>spider-design-minio</artifactId>
-				<version>${spider-design.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.spiderdesign</groupId>
 				<artifactId>spider-design-translate</artifactId>
-				<version>${spider-design.version}</version>
+				<version>${revision}</version>
 			</dependency>
 
 		</dependencies>
